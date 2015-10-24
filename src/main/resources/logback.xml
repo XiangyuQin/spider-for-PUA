@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TRACE << DEBUG << INFO << WARN << ERROR << ALL << OFF 通过在这里定义的级别，您可以控制到应用程序中相应级别的日志信息的开关。
+ 比如在这里定义了INFO级别， 则应用程序中所有DEBUG级别的日志信息将不被打印出来 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+ <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+  <encoder>
+   <pattern>%X{req.remoteHost} [%date] %X{reqId} [%-5level] [%thread] [%-8class{1}:%L] - %m%n%ex{3}</pattern>
+  </encoder>
+ </appender> 
+      
+ <appender name="filelog"
+  class="ch.qos.logback.core.rolling.RollingFileAppender">
+  <file>D:/Gitecplise/logs/rule.log</file>
+  <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
+        <fileNamePattern>D:/Gitecplise/logs/rule.%d{yyyyMMdd-HH}.log</fileNamePattern>
+        <maxHistory>72</maxHistory>
+    </rollingPolicy>
+ 
+  <encoder>
+   <pattern>%X{req.remoteHost} [%date] %X{reqId} [%-5level] [%thread] [%-8class{1}:%L] - %m%n%ex{3}</pattern>
+  </encoder>
+ </appender>
+   
+ <root>
+  <level value="INFO" />
+  <appender-ref ref="filelog" />
+  <appender-ref ref="console" />
+ </root>        
+  
+</configuration>   
