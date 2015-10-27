@@ -9,11 +9,11 @@ public class App
 {
 	Logger logger = LoggerFactory.getLogger(App.class);
 	public App(){
-		logger.info("haha");
+		logger.info("spider main");
 	}
     public static void main( String[] args )
     {
-        System.out.println( "this is a spider" );
+        System.out.println( "this is a spider " );
         App app = new App();
         
         
