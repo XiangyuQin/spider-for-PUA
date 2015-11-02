@@ -7,12 +7,12 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
             connectionURL="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"
             userId="root" password="" />
-        <javaModelGenerator targetPackage="com.mybatis.models"
-            targetProject="D:\Gitecplise\workplace\SpiderForPUA\src\main\java" />
-        <sqlMapGenerator targetPackage="com.mybatis.sql"
-            targetProject="D:\Gitecplise\workplace\SpiderForPUA\src\main\java" />
-        <javaClientGenerator targetPackage="com.mybatis.mapper"
-            targetProject="D:\Gitecplise\workplace\SpiderForPUA\src\main\java" type="XMLMAPPER" />
-        <table tableName="abc" />
+        <javaModelGenerator targetPackage="com.spider.models"
+            targetProject="E:\EclipseForPerProWorkplace\spider-for-PUA\src\main\java" />
+        <sqlMapGenerator targetPackage="com.spider.sql"
+            targetProject="E:\EclipseForPerProWorkplace\spider-for-PUA\src\main\java" />
+        <javaClientGenerator targetPackage="com.spider.mapper"
+            targetProject="E:\EclipseForPerProWorkplace\spider-for-PUA\src\main\java" type="XMLMAPPER" />
+        <table tableName="userInfo" />
     </context>
 </generatorConfiguration>

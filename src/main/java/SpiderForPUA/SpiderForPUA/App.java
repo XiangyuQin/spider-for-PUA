@@ -1,8 +1,9 @@
 package SpiderForPUA.SpiderForPUA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
- * Hello world!
+ * Main
  *
  */
 public class App 
@@ -13,9 +14,7 @@ public class App
 	}
     public static void main( String[] args )
     {
-        System.out.println( "this is a spider " );
-        App app = new App();
-        
-        
+    	
+//    	Spider.create(new TiebaProcessor()).addUrl("http://tieba.baidu.com/f?kw=%E6%B3%A1%E5%A6%9E&ie=utf-8&pn=0").addPipeline(pipeline).thread(5).run();
     }
 }
