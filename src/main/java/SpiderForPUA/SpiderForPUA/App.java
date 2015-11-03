@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.spider.models.Userinfo;
 import com.spider.service.TiebaService;
 import com.spider.service.Impl.UserInfoServiceImpl;
+import com.spider.util.QuaryParam;
 
 /**
  * Main
@@ -19,22 +20,59 @@ public class App
 	
     private TiebaService tiebaService;
     
-	Logger logger = LoggerFactory.getLogger(App.class);
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	public App(){
 		logger.info("spider main");
+		tiebaService = new UserInfoServiceImpl();
 	}
 	
-	public void showList(){
-		tiebaService = new UserInfoServiceImpl();
+	public void selectAll(){
 		List<Userinfo> list = tiebaService.selectAll();
 		System.out.println("list size:"+list.size());
 		List<Userinfo> userinfoList = tiebaService.selectAll();
 		System.out.println("size:"+userinfoList.size());
+		for(Userinfo user:userinfoList){
+			System.out.println("user:"+user.getName());
+		}
+	}
+	
+	public void insertItem(){
+		
+		Userinfo userinfo = new Userinfo();
+		userinfo.setId(3);
+		userinfo.setName("qinchunrui");
+		userinfo.setPwd("qinchunrui");
+		System.out.println("insertItem:"+tiebaService.insertItem(userinfo));
+	}
+	
+	public void del(){
+		QuaryParam quaryParam = new QuaryParam();
+		quaryParam.setMinId(1);
+		quaryParam.setMaxId(3);
+		System.out.println("del:"+tiebaService.deletItem(quaryParam));
+	}
+	
+	public void update(){
+		QuaryParam quaryParam = new QuaryParam();
+		Userinfo userinfo = new Userinfo();
+		quaryParam.setName("qinxiangyu");
+		userinfo.setName("weicaoying");
+		userinfo.setPwd("weicaoying");
+		tiebaService.updateItem(userinfo, quaryParam);
+	}
+	
+	public void selectLike(){
+		QuaryParam quaryParam = new QuaryParam();
+		quaryParam.setNameLike("qin");
+		tiebaService.selectLike(quaryParam);
 	}
 	
     public static void main( String[] args )
     {
     	App app = new App();
-    	app.showList();
+    	app.selectLike();
+    	app.selectAll();
+//    	app.insertItem();
+//    	app.update();
     }
 }
