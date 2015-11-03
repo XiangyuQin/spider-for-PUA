@@ -1,14 +1,12 @@
 package SpiderForPUA.SpiderForPUA;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import com.spider.models.Userinfo;
-import com.spider.service.TiebaService;
-import com.spider.service.Impl.UserInfoServiceImpl;
-import com.spider.util.QuaryParam;
+import com.spider.pipeline.PuaHomePipeline;
+import com.spider.processor.PuaHomeProcessor;
+
+import us.codecraft.webmagic.Spider;
 
 /**
  * Main
@@ -17,62 +15,18 @@ import com.spider.util.QuaryParam;
 @Controller
 public class App 
 {
-	
-    private TiebaService tiebaService;
-    
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	public App(){
 		logger.info("spider main");
-		tiebaService = new UserInfoServiceImpl();
 	}
 	
-	public void selectAll(){
-		List<Userinfo> list = tiebaService.selectAll();
-		System.out.println("list size:"+list.size());
-		List<Userinfo> userinfoList = tiebaService.selectAll();
-		System.out.println("size:"+userinfoList.size());
-		for(Userinfo user:userinfoList){
-			System.out.println("user:"+user.getName());
-		}
-	}
-	
-	public void insertItem(){
-		
-		Userinfo userinfo = new Userinfo();
-		userinfo.setId(3);
-		userinfo.setName("qinchunrui");
-		userinfo.setPwd("qinchunrui");
-		System.out.println("insertItem:"+tiebaService.insertItem(userinfo));
-	}
-	
-	public void del(){
-		QuaryParam quaryParam = new QuaryParam();
-		quaryParam.setMinId(1);
-		quaryParam.setMaxId(3);
-		System.out.println("del:"+tiebaService.deletItem(quaryParam));
-	}
-	
-	public void update(){
-		QuaryParam quaryParam = new QuaryParam();
-		Userinfo userinfo = new Userinfo();
-		quaryParam.setName("qinxiangyu");
-		userinfo.setName("weicaoying");
-		userinfo.setPwd("weicaoying");
-		tiebaService.updateItem(userinfo, quaryParam);
-	}
-	
-	public void selectLike(){
-		QuaryParam quaryParam = new QuaryParam();
-		quaryParam.setNameLike("qin");
-		tiebaService.selectLike(quaryParam);
+	public void runApp(){
+		Spider.create(new PuaHomeProcessor()).addUrl("http://www.puahome.com/bbs/f-54-1.html").addPipeline(new PuaHomePipeline()).thread(6).run();
 	}
 	
     public static void main( String[] args )
     {
     	App app = new App();
-    	app.selectLike();
-    	app.selectAll();
-//    	app.insertItem();
-//    	app.update();
+    	app.runApp();
     }
 }

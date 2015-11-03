@@ -54,6 +54,8 @@
 		</javaClientGenerator>
 
 		<table tableName="userInfo" />
+		<table tableName="puahome_bbs" />
+		<table tableName="puahome_bbs_puaer" />
 	</context>
 
 </generatorConfiguration>
