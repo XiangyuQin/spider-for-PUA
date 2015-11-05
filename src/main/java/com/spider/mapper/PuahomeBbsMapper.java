@@ -33,4 +33,8 @@ public interface PuahomeBbsMapper {
     int updateByPrimaryKeyWithBLOBs(PuahomeBbs record);
 
     int updateByPrimaryKey(PuahomeBbs record);
+    
+    int insertItemSelective(PuahomeBbs record);
+    
+    int insertItem(PuahomeBbs record);
 }

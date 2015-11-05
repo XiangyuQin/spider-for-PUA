@@ -21,7 +21,7 @@ public class App
 	}
 	
 	public void runApp(){
-		Spider.create(new PuaHomeProcessor()).addUrl("http://www.puahome.com/bbs/f-54-1.html").addPipeline(new PuaHomePipeline()).thread(6).run();
+		Spider.create(new PuaHomeProcessor()).addUrl("http://www.puahome.com/bbs/f-54-1.html").addPipeline(new PuaHomePipeline()).thread(6).run();;
 	}
 	
     public static void main( String[] args )

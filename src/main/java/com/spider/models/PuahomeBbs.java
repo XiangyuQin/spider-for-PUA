@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+import com.spider.analyzeresult.PuahomeResult;
+
 public class PuahomeBbs implements Serializable {
     private Integer id;
 
@@ -98,17 +100,26 @@ public class PuahomeBbs implements Serializable {
     }
 
     
-    public void generatePuahomeBbs(Map<String, String> map){
-    		this.title = map.get("title");
-    		this.content = map.get("content");
-    		this.writer = map.get("writer");
+    public void generatePuahomeBbs(PuahomeResult puahomeResult){
+    		this.title = puahomeResult.getTitle();
+    		this.content = puahomeResult.getContent();
+    		this.writer = puahomeResult.getWriter();
 //    		this.editdate = map.get("editdate");
-    		this.url = map.get("url").trim();
-    		this.listurl = map.get("listurl");
-    		this.commentnum = Integer.valueOf(map.get("commentnum"));
-    		this.readnum = Integer.valueOf(map.get("readnum"));
+    		this.url = puahomeResult.getUrl().trim();
+    		this.listurl = puahomeResult.getListurl();
+    		this.commentnum = Integer.valueOf(puahomeResult.getCommentnum());
+    		this.readnum = Integer.valueOf(puahomeResult.getReadnum());
     }
+    
+    
     @Override
+	public String toString() {
+		return "PuahomeBbs [id=" + id + ", title=" + title + ", writer=" + writer + ", editdate=" + editdate + ", url="
+				+ url + ", listurl=" + listurl + ", commentnum=" + commentnum + ", readnum=" + readnum + ", content="
+				+ content + "]";
+	}
+
+	@Override
     public boolean equals(Object that) {
         if (this == that) {
             return true;

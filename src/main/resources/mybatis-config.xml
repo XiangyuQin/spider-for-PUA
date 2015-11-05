@@ -13,7 +13,6 @@
   </environment>
  </environments>
     <mappers>
-        <mapper resource="com/spider/sql/UserinfoMapper.xml" />
         <mapper resource="com/spider/sql/PuahomeBbsMapper.xml" />
         <mapper resource="com/spider/sql/PuahomeBbsPuaerMapper.xml" />
     </mappers>

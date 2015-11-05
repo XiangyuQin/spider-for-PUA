@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.spider.analyzeresult.PuahomeResult;
 import com.spider.models.PuahomeBbs;
 
 import us.codecraft.webmagic.Page;
@@ -19,7 +20,7 @@ public class PuaHomeProcessor implements PageProcessor{
     HashMap<String,String> hashMap = new HashMap<String, String>();
 //  private String URL_PAGE = "http://www.soku.com/channel/personlist.*\\.html";
   private String WEB_URL = "http://www.puahome.com/bbs/";
-  private String URL_PAGE = "(f-54-(\\d*)\\.html)";
+  private String URL_PAGE = "(f-54-(.*)\\.html)";
   private String URL_CONTENT = "(pua-(\\d*)-(\\d*)-(\\d*)\\.html)";
   private String XEGEX_NAME = "<span class=\"name\">(.*)</span>";
   private String XEGEX_ALL = "<div class=\"G\">[\\s\\S]*<img src=\"(.*)\"[\\s\\S]*onerror[\\s\\S]*<!--G end-->" +
@@ -42,6 +43,7 @@ public class PuaHomeProcessor implements PageProcessor{
   private String XEGEX_BYNAME = "title=\"(.*)\"";
 
   public void process(Page page) {
+	  System.out.println("page:"+page.getUrl());
       List<String> contentUrlList = new ArrayList<String>();
       List<String> listUrlList = new ArrayList<String>();
       if (page.getUrl().regex(URL_PAGE).match()) {
@@ -53,20 +55,22 @@ public class PuaHomeProcessor implements PageProcessor{
           for(String url:listUrlList){
         	  System.out.println("url:"+url);
           }
+          for(String content:contentUrlList){
+        	  System.out.println("content:"+content);
+          }
           System.out.println("***********************");
           page.addTargetRequests(listUrlList);
           page.addTargetRequests(contentUrlList);
       } else {
-          Map<String, String> itemMap = AnalyzePage(page);
+    	  System.out.println("hahaha");
+    	  PuahomeResult puahomeResult = AnalyzePage(page);
           PuahomeBbs puahomeBbs = new PuahomeBbs();
-          puahomeBbs.generatePuahomeBbs(itemMap);
-          page.putField(puahomeBbs.getClass().toString(), puahomeBbs);
-//          if(){
-//        	  
-//          }
-//              page.putField("tts", teamtoStarsubjects);
-//          }
-//          page.putField("star", starsubject);
+          puahomeBbs.setUrl(page.getUrl().toString());
+          puahomeBbs.setTitle("hello title");
+          puahomeBbs.setContent("hello content");
+//          puahomeBbs.generatePuahomeBbs(puahomeResult);
+          System.out.println("output item:"+puahomeBbs.getClass().getSimpleName());
+          page.putField(puahomeBbs.getClass().getSimpleName(), puahomeBbs);
       }
       }
 
@@ -80,10 +84,10 @@ public class PuaHomeProcessor implements PageProcessor{
       return mergedUrlList;
   }
   
-  private Map<String, String> AnalyzePage(Page page) {
-	  Map<String,String> itemMap = new HashMap<String, String>();
-	  
-      return itemMap;
+  private PuahomeResult AnalyzePage(Page page) {
+	  PuahomeResult puahomeResult = new PuahomeResult();
+	  System.out.println("hehe");
+      return puahomeResult;
       
   }
 
