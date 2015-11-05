@@ -2,6 +2,9 @@ package com.spider.models;
 
 import java.io.Serializable;
 
+import com.spider.analyzeresult.PuahomeResult;
+import com.spider.common.DataTransform;
+
 public class PuahomeBbsPuaer implements Serializable {
     private Integer id;
 
@@ -55,6 +58,20 @@ public class PuahomeBbsPuaer implements Serializable {
         this.attentionnum = attentionnum;
     }
 
+    public void generatePuahomeBbsPuaer(PuahomeResult puahomeResult) throws Exception{
+		this.name = puahomeResult.getWriter();
+		this.themenum = DataTransform.string2Integer(puahomeResult.getThemenum());
+		this.fansnum = DataTransform.string2Integer(puahomeResult.getFansnum());
+		this.attentionnum = DataTransform.string2Integer(puahomeResult.getAttentionnum());
+}
+
+public void generate(PuahomeResult puahomeResult) {
+	try{
+		generatePuahomeBbsPuaer(puahomeResult);
+	}catch(Exception e){
+		System.out.println("error:"+e);
+	}
+}
     @Override
     public boolean equals(Object that) {
         if (this == that) {

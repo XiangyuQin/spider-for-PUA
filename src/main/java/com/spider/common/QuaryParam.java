@@ -1,4 +1,4 @@
-package com.spider.util;
+package com.spider.common;
 
 public class QuaryParam {
 	private Integer id;

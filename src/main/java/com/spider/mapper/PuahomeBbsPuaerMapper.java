@@ -27,4 +27,6 @@ public interface PuahomeBbsPuaerMapper {
     int updateByPrimaryKeySelective(PuahomeBbsPuaer record);
 
     int updateByPrimaryKey(PuahomeBbsPuaer record);
+    
+    int insertItem(PuahomeBbsPuaer record);
 }

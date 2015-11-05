@@ -12,10 +12,16 @@ public class PuahomeResult {
     private String url;
 
     private String listurl;
+    
+    private String personalUrl;
 
     private String commentnum;
 
     private String readnum;
+    
+    private String supportNum;
+    
+    private String collectNum;
 
     private String content;
     
@@ -28,6 +34,53 @@ public class PuahomeResult {
     private String fansnum;
 
     private String attentionnum;
+    
+    private String category;
+    
+    private String categoryurl;
+    
+    
+    
+
+	public String getPersonalUrl() {
+		return personalUrl;
+	}
+
+	public void setPersonalUrl(String personalUrl) {
+		this.personalUrl = personalUrl;
+	}
+
+	public String getSupportNum() {
+		return supportNum;
+	}
+
+	public void setSupportNum(String supportNum) {
+		this.supportNum = supportNum;
+	}
+
+	public String getCollectNum() {
+		return collectNum;
+	}
+
+	public void setCollectNum(String collectNum) {
+		this.collectNum = collectNum;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCategoryurl() {
+		return categoryurl;
+	}
+
+	public void setCategoryurl(String categoryurl) {
+		this.categoryurl = categoryurl;
+	}
 
 	public String getArticleId() {
 		return articleId;
@@ -144,9 +197,11 @@ public class PuahomeResult {
 	@Override
 	public String toString() {
 		return "PuahomeResult [articleId=" + articleId + ", title=" + title + ", writer=" + writer + ", editdate="
-				+ editdate + ", url=" + url + ", listurl=" + listurl + ", commentnum=" + commentnum + ", readnum="
-				+ readnum + ", content=" + content + ", id=" + id + ", name=" + name + ", themenum=" + themenum
-				+ ", fansnum=" + fansnum + ", attentionnum=" + attentionnum + "]";
+				+ editdate + ", url=" + url + ", listurl=" + listurl + ", personalUrl=" + personalUrl + ", commentnum="
+				+ commentnum + ", readnum=" + readnum + ", supportNum=" + supportNum + ", collectNum=" + collectNum
+				+ ", content=" + content + ", id=" + id + ", name=" + name + ", themenum=" + themenum + ", fansnum="
+				+ fansnum + ", attentionnum=" + attentionnum + ", category=" + category + ", categoryurl=" + categoryurl
+				+ "]";
 	}
     
     

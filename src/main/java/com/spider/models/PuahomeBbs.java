@@ -2,9 +2,9 @@ package com.spider.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 import com.spider.analyzeresult.PuahomeResult;
+import com.spider.common.DataTransform;
 
 public class PuahomeBbs implements Serializable {
     private Integer id;
@@ -99,16 +99,23 @@ public class PuahomeBbs implements Serializable {
         this.content = content == null ? null : content.trim();
     }
 
-    
-    public void generatePuahomeBbs(PuahomeResult puahomeResult){
+    public void generatePuahomeBbs(PuahomeResult puahomeResult) throws Exception{
     		this.title = puahomeResult.getTitle();
     		this.content = puahomeResult.getContent();
     		this.writer = puahomeResult.getWriter();
 //    		this.editdate = map.get("editdate");
-    		this.url = puahomeResult.getUrl().trim();
+    		this.url = puahomeResult.getUrl();
     		this.listurl = puahomeResult.getListurl();
-    		this.commentnum = Integer.valueOf(puahomeResult.getCommentnum());
-    		this.readnum = Integer.valueOf(puahomeResult.getReadnum());
+    		this.commentnum = DataTransform.string2Integer(puahomeResult.getCommentnum()); 
+    		this.readnum = DataTransform.string2Integer(puahomeResult.getReadnum());
+    }
+    
+    public void generate(PuahomeResult puahomeResult) {
+    	try{
+    		generatePuahomeBbs(puahomeResult);
+    	}catch(Exception e){
+    		System.out.println("error:"+e);
+    	}
     }
     
     
