@@ -7,9 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.spider.analyzeresult.PuahomeResult;
+import com.spider.enums.RecordMark;
 import com.spider.models.PuahomeBbs;
 import com.spider.models.PuahomeBbsPuaer;
 
+import SpiderForPUA.SpiderForPUA.ServerContext;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -18,7 +20,6 @@ public class PuaHomeProcessor implements PageProcessor{
 
 	
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setCharset("UTF-8");
-	
     HashMap<String,String> hashMap = new HashMap<String, String>();
 //  private String URL_PAGE = "http://www.soku.com/channel/personlist.*\\.html";
   private String WEB_URL = "http://www.puahome.com/bbs/";
@@ -57,11 +58,14 @@ public class PuaHomeProcessor implements PageProcessor{
         	  System.out.println("content:"+content);
           }
           System.out.println("***********************");
+          duplicateUrl(contentUrlList);
+          System.out.println("cacheUrl size:"+ServerContext.cacheUrl.size());
+          mapUrlAndListUrl(contentUrlList, page.getUrl().toString());
           page.addTargetRequests(listUrlList);
           page.addTargetRequests(contentUrlList);
       } else {
     	  PuahomeResult puahomeResult = AnalyzePage(page);
-          PuahomeBbs puahomeBbs = new PuahomeBbs();
+          PuahomeBbs puahomeBbs = new PuahomeBbs(page.getUrl().toString(),ServerContext.articleListUrl.get(page.getUrl().toString()));
           PuahomeBbsPuaer puahomeBbsPuaer = new PuahomeBbsPuaer();
           puahomeBbs.generate(puahomeResult);
           puahomeBbsPuaer.generate(puahomeResult);
@@ -71,8 +75,20 @@ public class PuaHomeProcessor implements PageProcessor{
       }
   }
 
-
-
+  private void duplicateUrl(List<String> contentUrlList){
+	  for(String url:contentUrlList){
+		  if(!ServerContext.cacheUrl.containsKey(url)){
+			  ServerContext.cacheUrl.put(url, RecordMark.NORECORD.getMark());
+		  }
+	  }
+	  
+  }
+  
+  private void mapUrlAndListUrl(List<String> urlList,String listUrl){
+	  for(String url:urlList){
+		  ServerContext.articleListUrl.put(url, listUrl);
+	  }
+  }
   private List<String> mergeUrl(List<String> urlList,String web_url){
 	  List<String> mergedUrlList = new ArrayList<String>();
       for(String url:urlList){
@@ -84,7 +100,6 @@ public class PuaHomeProcessor implements PageProcessor{
   private PuahomeResult AnalyzePage(Page page) {
 	  PuahomeResult puahomeResult = new PuahomeResult();
 	  String pageString = page.getHtml().xpath("//div[@class='mpl']").toString();
-//	  System.out.println(pageString);
       Pattern pattern = Pattern.compile(CONTENT);
       Matcher result = pattern.matcher(pageString);
       if (result.find()) {

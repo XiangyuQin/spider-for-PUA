@@ -3,6 +3,7 @@
 <mapper namespace="com.spider.mapper.PuahomeBbsPuaerMapper">
   <resultMap id="BaseResultMap" type="com.spider.models.PuahomeBbsPuaer">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="personalurl" jdbcType="VARCHAR" property="personalurl" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="themenum" jdbcType="INTEGER" property="themenum" />
     <result column="fansnum" jdbcType="INTEGER" property="fansnum" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, themenum, fansnum, attentionnum
+    id,personalurl, name, themenum, fansnum, attentionnum
   </sql>
   <select id="selectByExample" parameterType="com.spider.models.PuahomeBbsPuaerCriteria" resultMap="BaseResultMap">
     select
@@ -100,10 +101,8 @@
     </if>
   </delete>
   <insert id="insertItem" parameterType="com.spider.models.PuahomeBbsPuaer">
-    insert into puahome_bbs_puaer (name, themenum, 
-      fansnum, attentionnum)
-    values (#{name,jdbcType=VARCHAR}, #{themenum,jdbcType=INTEGER}, 
-      #{fansnum,jdbcType=INTEGER}, #{attentionnum,jdbcType=INTEGER})
+    insert into puahome_bbs_puaer (personalurl, name, themenum, fansnum, attentionnum)
+    values (#{personalurl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{themenum,jdbcType=INTEGER}, #{fansnum,jdbcType=INTEGER}, #{attentionnum,jdbcType=INTEGER})
   </insert>
   <insert id="insert" parameterType="com.spider.models.PuahomeBbsPuaer">
     insert into puahome_bbs_puaer (id, name, themenum, 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.spider.analyzeresult.PuahomeResult;
+import com.spider.common.DataFormat;
 import com.spider.common.DataTransform;
 
 public class PuahomeBbs implements Serializable {
@@ -14,6 +15,8 @@ public class PuahomeBbs implements Serializable {
     private String writer;
 
     private Date editdate;
+    
+    private Date createtime;
 
     private String url;
 
@@ -22,10 +25,19 @@ public class PuahomeBbs implements Serializable {
     private Integer commentnum;
 
     private Integer readnum;
-
+    
+    private Integer supportnum;
+    
+    private Integer collectnum;
+    
     private String content;
 
     private static final long serialVersionUID = 1L;
+    
+    public PuahomeBbs(String url,String listUrl){
+    	this.url = url;
+    	this.listurl = listUrl;
+    }
 
     public Integer getId() {
         return id;
@@ -98,16 +110,41 @@ public class PuahomeBbs implements Serializable {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+    
+    public Date getCreatetime() {
+		return createtime;
+	}
 
-    public void generatePuahomeBbs(PuahomeResult puahomeResult) throws Exception{
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+
+	public Integer getSupportnum() {
+		return supportnum;
+	}
+
+	public void setSupportnum(Integer supportnum) {
+		this.supportnum = supportnum;
+	}
+
+	public Integer getCollectnum() {
+		return collectnum;
+	}
+
+	public void setCollectnum(Integer collectnum) {
+		this.collectnum = collectnum;
+	}
+
+	public void generatePuahomeBbs(PuahomeResult puahomeResult) throws Exception{
     		this.title = puahomeResult.getTitle();
     		this.content = puahomeResult.getContent();
     		this.writer = puahomeResult.getWriter();
-//    		this.editdate = map.get("editdate");
-    		this.url = puahomeResult.getUrl();
-    		this.listurl = puahomeResult.getListurl();
+    		this.editdate = DataFormat.String2Date(puahomeResult.getEditdate());
+    		this.createtime = DataFormat.getNowDateTime();
     		this.commentnum = DataTransform.string2Integer(puahomeResult.getCommentnum()); 
     		this.readnum = DataTransform.string2Integer(puahomeResult.getReadnum());
+    		this.supportnum = DataTransform.string2Integer(puahomeResult.getSupportNum());
+    		this.collectnum = DataTransform.string2Integer(puahomeResult.getCollectNum());
     }
     
     public void generate(PuahomeResult puahomeResult) {

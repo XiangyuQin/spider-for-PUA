@@ -9,6 +9,8 @@ public class PuahomeBbsPuaer implements Serializable {
     private Integer id;
 
     private String name;
+    
+    private String personalurl;
 
     private Integer themenum;
 
@@ -26,7 +28,16 @@ public class PuahomeBbsPuaer implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
+    
+    public String getPersonalurl() {
+		return personalurl;
+	}
+
+	public void setPersonalurl(String personalurl) {
+		this.personalurl = personalurl;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -60,10 +71,17 @@ public class PuahomeBbsPuaer implements Serializable {
 
     public void generatePuahomeBbsPuaer(PuahomeResult puahomeResult) throws Exception{
 		this.name = puahomeResult.getWriter();
+		this.personalurl = puahomeResult.getPersonalUrl();
 		this.themenum = DataTransform.string2Integer(puahomeResult.getThemenum());
 		this.fansnum = DataTransform.string2Integer(puahomeResult.getFansnum());
 		this.attentionnum = DataTransform.string2Integer(puahomeResult.getAttentionnum());
-}
+    }
+    
+@Override
+	public String toString() {
+		return "PuahomeBbsPuaer [id=" + id + ", name=" + name + ", personalurl=" + personalurl + ", themenum="
+				+ themenum + ", fansnum=" + fansnum + ", attentionnum=" + attentionnum + "]";
+	}
 
 public void generate(PuahomeResult puahomeResult) {
 	try{

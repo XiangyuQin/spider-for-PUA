@@ -23,10 +23,13 @@ public class PuahomeBbsPuaerServiceImpl implements PuahomeBbsPuaerService{
 		puahomeBbsPuaerMapper = session.getMapper(PuahomeBbsPuaerMapper.class);
 	}
 	public int insert(PuahomeBbsPuaer puahomeBbsPuaer) {
-		System.out.println("inserting");
 		int result = puahomeBbsPuaerMapper.insertItem(puahomeBbsPuaer);
 		session.commit();
 		return result;
 	}
+	public void close() {
+		session.close();
+	}
+
 
 }

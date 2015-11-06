@@ -6,10 +6,13 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="writer" jdbcType="VARCHAR" property="writer" />
     <result column="editdate" jdbcType="TIMESTAMP" property="editdate" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="listurl" jdbcType="VARCHAR" property="listurl" />
     <result column="commentnum" jdbcType="INTEGER" property="commentnum" />
     <result column="readnum" jdbcType="INTEGER" property="readnum" />
+    <result column="supportnum" jdbcType="INTEGER" property="supportnum" />
+    <result column="collectnum" jdbcType="INTEGER" property="collectnum" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.spider.models.PuahomeBbs">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -73,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, writer, editdate, url, listurl, commentnum, readnum
+    id, title, writer, editdate, createtime, url, listurl, commentnum, readnum, supportnum, collectnum
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -137,8 +140,14 @@
       )
   </insert>
     <insert id="insertItem" parameterType="com.spider.models.PuahomeBbs">
-    insert into puahome_bbs (title, url, content)
-    values (#{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},#{content,jdbcType=LONGVARCHAR}
+    insert into puahome_bbs (id, title, writer, 
+      editdate, createtime, url, listurl, 
+      commentnum, readnum, content, supportnum, collectnum
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{writer,jdbcType=VARCHAR}, 
+      #{editdate,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, #{listurl,jdbcType=VARCHAR}, 
+      #{commentnum,jdbcType=INTEGER}, #{readnum,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{supportnum,jdbcType=INTEGER}, 
+      #{collectnum,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.spider.models.PuahomeBbs">

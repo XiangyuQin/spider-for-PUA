@@ -23,9 +23,13 @@ public class PuahomeBbsServiceImpl implements PuahomeBbsService{
 	}
 	
 	public int insert(PuahomeBbs puahomeBbs){
-		System.out.println("inserting");
 		int result = puahomeBbsMapper.insertItem(puahomeBbs);
 		session.commit();
 		return result;
+	}
+
+	public void close() {
+		session.close();
+		
 	}
 }

@@ -10,4 +10,14 @@ public class DataTransform {
 			return 0;
 		}
 	}
+	
+	public static String integer2String(Integer num){
+		try{
+			String result = String.valueOf(num);
+			return result;
+		}catch(Exception e){
+			System.out.println("error:"+e);
+			return null;
+		}
+	}
 }
