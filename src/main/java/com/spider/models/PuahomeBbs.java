@@ -7,8 +7,13 @@ import com.spider.analyzeresult.PuahomeResult;
 import com.spider.common.DataFormat;
 import com.spider.common.DataTransform;
 
+@SuppressWarnings("serial")
 public class PuahomeBbs implements Serializable {
-    private Integer id;
+    /**
+	 * 
+	 */
+
+	private Integer id;
 
     private String title;
 
@@ -31,8 +36,13 @@ public class PuahomeBbs implements Serializable {
     private Integer collectnum;
     
     private String content;
+    
+    private String titleMd5;
 
-    private static final long serialVersionUID = 1L;
+    private String writerMd5;
+    
+    private String contentMd5;
+
     
     public PuahomeBbs(String url,String listUrl){
     	this.url = url;
@@ -135,6 +145,30 @@ public class PuahomeBbs implements Serializable {
 		this.collectnum = collectnum;
 	}
 
+	public String getTitleMd5() {
+		return titleMd5;
+	}
+
+	public void setTitleMd5(String titleMd5) {
+		this.titleMd5 = titleMd5;
+	}
+
+	public String getWriterMd5() {
+		return writerMd5;
+	}
+
+	public void setWriterMd5(String writerMd5) {
+		this.writerMd5 = writerMd5;
+	}
+
+	public String getContentMd5() {
+		return contentMd5;
+	}
+
+	public void setContentMd5(String contentMd5) {
+		this.contentMd5 = contentMd5;
+	}
+
 	public void generatePuahomeBbs(PuahomeResult puahomeResult) throws Exception{
     		this.title = puahomeResult.getTitle();
     		this.content = puahomeResult.getContent();
@@ -145,6 +179,9 @@ public class PuahomeBbs implements Serializable {
     		this.readnum = DataTransform.string2Integer(puahomeResult.getReadnum());
     		this.supportnum = DataTransform.string2Integer(puahomeResult.getSupportNum());
     		this.collectnum = DataTransform.string2Integer(puahomeResult.getCollectNum());
+    		this.titleMd5 = DataTransform.md5(this.title);
+    		this.contentMd5 = DataTransform.md5(this.content);
+    		this.writerMd5 = DataTransform.md5(this.writer);
     }
     
     public void generate(PuahomeResult puahomeResult) {

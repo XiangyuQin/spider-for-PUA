@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import com.spider.pipeline.PuaHomePipeline;
 import com.spider.processor.PuaHomeProcessor;
-import com.spider.redis.PuahomeRecordUrlRedis;
+import com.spider.redis.RecordedUrlRedis;
 
 import us.codecraft.webmagic.Spider;
 
@@ -33,7 +33,7 @@ public class App
 	}
 	
 	private Map<String, Integer> loadcacheUrl(){
-		PuahomeRecordUrlRedis puahomeRecordUrlRedis = new PuahomeRecordUrlRedis();
+		RecordedUrlRedis puahomeRecordUrlRedis = new RecordedUrlRedis();
 		return puahomeRecordUrlRedis.hgetUrl();
 	}
     public static void main( String[] args )

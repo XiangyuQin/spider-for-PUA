@@ -24,7 +24,6 @@ public class DataFormat {
 		System.out.println(date);
 		try{
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	        System.out.println("no error");
 	        return sdf.parse(date);
 		}catch(Exception e){
 			System.out.println("error");

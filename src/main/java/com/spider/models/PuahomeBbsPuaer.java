@@ -5,10 +5,16 @@ import java.io.Serializable;
 import com.spider.analyzeresult.PuahomeResult;
 import com.spider.common.DataTransform;
 
+@SuppressWarnings("serial")
 public class PuahomeBbsPuaer implements Serializable {
-    private Integer id;
+    /**
+	 * 
+	 */
+	private Integer id;
 
     private String name;
+    
+    private String nameMd5;
     
     private String personalurl;
 
@@ -17,8 +23,6 @@ public class PuahomeBbsPuaer implements Serializable {
     private Integer fansnum;
 
     private Integer attentionnum;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
@@ -45,7 +49,15 @@ public class PuahomeBbsPuaer implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getThemenum() {
+    public String getNameMd5() {
+		return nameMd5;
+	}
+
+	public void setNameMd5(String nameMd5) {
+		this.nameMd5 = nameMd5;
+	}
+
+	public Integer getThemenum() {
         return themenum;
     }
 
@@ -76,6 +88,8 @@ public class PuahomeBbsPuaer implements Serializable {
 		this.fansnum = DataTransform.string2Integer(puahomeResult.getFansnum());
 		this.attentionnum = DataTransform.string2Integer(puahomeResult.getAttentionnum());
     }
+    
+    
     
 @Override
 	public String toString() {

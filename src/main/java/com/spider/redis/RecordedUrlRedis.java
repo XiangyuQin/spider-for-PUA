@@ -8,10 +8,10 @@ import com.spider.util.StringUtil;
 
 import redis.clients.jedis.Jedis;
 
-public class PuahomeRecordUrlRedis {
+public class RecordedUrlRedis {
 	private Jedis jedis;
 	private String key;
-	public PuahomeRecordUrlRedis() {
+	public RecordedUrlRedis() {
 		this.key = "puahome_recorded_url";
 		String host = "127.0.0.1";
 		int port = 6379;

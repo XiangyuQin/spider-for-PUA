@@ -70,6 +70,8 @@ public class PuaHomeProcessor implements PageProcessor{
           puahomeBbs.generate(puahomeResult);
           puahomeBbsPuaer.generate(puahomeResult);
           System.out.println("output item:"+puahomeBbs.getClass().getSimpleName());
+          
+          page.putField("url",page.getUrl().toString());
           page.putField(puahomeBbs.getClass().getSimpleName(), puahomeBbs);
           page.putField(puahomeBbsPuaer.getClass().getSimpleName(), puahomeBbsPuaer);
       }
