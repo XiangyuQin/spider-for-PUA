@@ -10,8 +10,9 @@ import com.spider.analyzeresult.PuahomeResult;
 import com.spider.enums.RecordMark;
 import com.spider.models.PuahomeBbs;
 import com.spider.models.PuahomeBbsPuaer;
+import com.spider.util.ConfigStatic;
+import com.spider.util.ServerContext;
 
-import SpiderForPUA.SpiderForPUA.ServerContext;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -21,36 +22,17 @@ public class PuaHomeProcessor implements PageProcessor{
 	
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setCharset("UTF-8");
     HashMap<String,String> hashMap = new HashMap<String, String>();
-//  private String URL_PAGE = "http://www.soku.com/channel/personlist.*\\.html";
-  private String WEB_URL = "http://www.puahome.com/bbs/";
-  private String URL_PAGE = "(f-54-(.*)\\.html)";
-  private String URL_CONTENT = "(pua-(\\d*)-1-(\\d*)\\.html)";
-  private String CONTENT = "<div class=\"zuv_first_header cl\">[\\s\\S]* <div class=\"zuvhh_r\">[\\s\\S]*<a href=\""
-	  		+ "(.*\\.html)\">\\["
-	  		+ "(.*)\\]</a>[\\s\\S]*<span id=\"thread_subject\"><h1><a href=\""
-	  		+ "(.*\\.html)\">"
-	  		+ "(.*)</a></h1></span>[\\s\\S]*<span class=\"s5\">"
-	  		+ "(\\d*-\\d*-\\d* \\d*:\\d*)</span>[\\s\\S]*<span class=\"s1\" title=\"浏览数\">"
-	  		+ "(\\d*)</span>[\\s\\S]*<span class=\"s2\" title=\"评论数\">"
-	  		+ "(\\d*)</span>[\\s\\S]*<span class=\"s3\" title=\"支持数\">"
-	  		+ "(\\d*)</span>[\\s\\S]*<span class=\"s4\" title=\"收藏数\">"
-	  		+ "(\\d*)</span>[\\s\\S]*<td class=\"t_f\" id=\".*\">"
-	  		+ "([\\s\\S]*)</table>[\\s\\S]*<div class=\"zuv_author_work cl\">[\\s\\S]*<p><a href=\""
-	  		+ "(.*html)\" target=\"_blank\">"
-	  		+ "(.*)</a></p>[\\s\\S]*<ul>[\\s\\S]*<li class=\"li1\"><a href=\".*\" target=\"_blank\"><em class=\"em1\">"
-	  		+ "(\\d*)</em><em class=\"em2\">主题</em></a></li>[\\s\\S]*<li class=\"li2\"><a href=\".*\" target=\"_blank\"><em class=\"em1\">"
-	  		+ "(\\d*)</em><em class=\"em2\">粉丝</em></a></li>[\\s\\S]*<li class=\"li3\"><a href=\".*\" target=\"_blank\"><em class=\"em1\">"
-	  		+ "(\\d*)</em><em class=\"em2\">关注</em></a></li>[\\s\\S]*</ul>";
   public void process(Page page) {
+//	  configTest();
 	  System.out.println("page:"+page.getUrl());
       List<String> contentUrlList = new ArrayList<String>();
       List<String> listUrlList = new ArrayList<String>();
-      if (page.getUrl().regex(URL_PAGE).match()) {
-          listUrlList = page.getHtml().xpath("//div[@class='bm bw0 pgs cl']").links().regex(URL_PAGE).all();
+      if (page.getUrl().regex(ConfigStatic.RegexUrlList).match()) {
+          listUrlList = page.getHtml().xpath(ConfigStatic.XpathListUrl).links().regex(ConfigStatic.RegexUrlList).all();
           System.out.println("lb:"+page.getUrl().toString()+":"+listUrlList.size());
-          contentUrlList = page.getHtml().xpath("//div[@class='p_ac']").links().regex(URL_CONTENT).all();
-          listUrlList = mergeUrl(listUrlList,WEB_URL);
-          contentUrlList = mergeUrl(contentUrlList,WEB_URL);
+          contentUrlList = page.getHtml().xpath(ConfigStatic.XpathContentUrl).links().regex(ConfigStatic.RegexUrlContent).all();
+          listUrlList = mergeUrl(listUrlList,ConfigStatic.RegexUrlWeb);
+          contentUrlList = mergeUrl(contentUrlList,ConfigStatic.RegexUrlWeb);
           for(String url:listUrlList){
         	  System.out.println("url:"+url);
           }
@@ -101,8 +83,8 @@ public class PuaHomeProcessor implements PageProcessor{
   
   private PuahomeResult AnalyzePage(Page page) {
 	  PuahomeResult puahomeResult = new PuahomeResult();
-	  String pageString = page.getHtml().xpath("//div[@class='mpl']").toString();
-      Pattern pattern = Pattern.compile(CONTENT);
+	  String pageString = page.getHtml().xpath(ConfigStatic.XpathContent).toString();
+      Pattern pattern = Pattern.compile(ConfigStatic.RegexContent);
       Matcher result = pattern.matcher(pageString);
       if (result.find()) {
     	  puahomeResult.setCategoryurl(result.group(1));
@@ -121,7 +103,7 @@ public class PuaHomeProcessor implements PageProcessor{
     	  puahomeResult.setAttentionnum(result.group(15));
 //    	  System.out.println("puahomeResult.toString()"+puahomeResult.toString());
       }else{
-          System.out.println("名字解析出问题："+page.getUrl().toString());
+          System.out.println("解析出问题："+page.getUrl().toString());
       }
 
       return puahomeResult;

@@ -4,24 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.spider.common.DataTransform;
-import com.spider.util.StringUtil;
+import com.spider.util.Config;
+import com.spider.util.ConfigStatic;
 
 import redis.clients.jedis.Jedis;
 
-public class RecordedUrlRedis {
+public class RecordedUrlRedis extends SuperRedis{
 	private Jedis jedis;
 	private String key;
-	public RecordedUrlRedis() {
-		this.key = "puahome_recorded_url";
-		String host = "127.0.0.1";
-		int port = 6379;
-		String password = "";
-		int db = 0;
-		this.jedis = new Jedis(host, port);
-		if (StringUtil.notEmpty(password)) {
-			jedis.auth(password);
-		}
-		jedis.select(db);
+	public RecordedUrlRedis(String prefix){
+		this.key = Config.INSTANCE.getConfigValue(prefix+ConfigStatic.KEY);
+		jedis = init(prefix);
 	}
 	
 	public long hsetUrl(String url,int mark){
@@ -41,6 +34,7 @@ public class RecordedUrlRedis {
 			result = loadAndHandleRecord();
 			return result;
 		}catch(Exception e){
+			System.out.println("error:"+e);
 			return result;
 		}
 		

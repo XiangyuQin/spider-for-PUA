@@ -6,31 +6,22 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.spider.common.DataTransform;
-import com.spider.util.StringUtil;
+import com.spider.util.Config;
+import com.spider.util.ConfigStatic;
 
 import redis.clients.jedis.Jedis;
 
-public class OutputRedis {
+public class OutputRedis extends SuperRedis{
 	private Jedis jedis;
 	private String key;
 	private List<String> unnecessaryKeys;
-	public OutputRedis(String key) {
-		this.key = key;
-		this.unnecessaryKeys = getUnnecessaryKeys(key);
-		init(key);
-	}
-	
-	private void init(String key){
-		this.key = key;
-		String host = "127.0.0.1";
-		int port = 6379;
-		String password = "";
-		int db = 0;
-		this.jedis = new Jedis(host, port);
-		if (StringUtil.notEmpty(password)) {
-			jedis.auth(password);
-		}
-		jedis.select(db);
+	public OutputRedis(String prefix) {
+		String keyMark = prefix+ConfigStatic.KEY;
+		this.key = Config.INSTANCE.getConfigValue(keyMark);
+		System.out.println("OutputRedis init keyMark:"+keyMark);
+		System.out.println("OutputRedis init key:"+this.key);
+		this.unnecessaryKeys = getUnnecessaryKeys(prefix);
+		jedis = init(prefix);
 	}
 	
 	public <T> long hsetItem(String url,T c){
@@ -38,7 +29,7 @@ public class OutputRedis {
 			long result = hsetAndHandle(url,c);
 			return result;
 		}catch(Exception e){
-			System.out.println("error");
+			System.out.println("error"+e);
 			return 0L;
 		}	
 	}
@@ -51,7 +42,7 @@ public class OutputRedis {
 		return result; 
 	}
 	
-	private List<String> getUnnecessaryKeys(String key) {
+	private List<String> getUnnecessaryKeys(String prefix) {
 		List<String> unnecessaryKeys = new ArrayList<String>();
 		unnecessaryKeys.add("title");
 		unnecessaryKeys.add("content");

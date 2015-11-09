@@ -9,8 +9,9 @@ import com.spider.service.PuahomeBbsPuaerService;
 import com.spider.service.PuahomeBbsService;
 import com.spider.service.Impl.PuahomeBbsPuaerServiceImpl;
 import com.spider.service.Impl.PuahomeBbsServiceImpl;
+import com.spider.util.Config;
+import com.spider.util.ServerContext;
 
-import SpiderForPUA.SpiderForPUA.ServerContext;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
@@ -28,27 +29,25 @@ public class PuaHomePipeline implements Pipeline{
 			System.out.println("puahomeBbs is null");
 		}else{
 			System.out.println("PuahomeBbs.class.getSimpleName():"+PuahomeBbs.class.getSimpleName());
-//			System.out.println("puahomeBbs:"+puahomeBbs.toString());
 			PuahomeBbsService puahomeService =new PuahomeBbsServiceImpl();
 			BbsInsertResult = puahomeService.insert(puahomeBbs);
 			puahomeService.close();
-			OutputRedis puahomeBbsRedis = new OutputRedis("puahomeBbs_article");
+			OutputRedis puahomeBbsRedis = new OutputRedis(Config.INSTANCE.getConfigValue("PuahomeBbs.Article.Prefix"));
 			puahomeBbsRedis.hsetItem(url, puahomeBbs);
 		}
 		if(puahomeBbsPuaer==null){
 			System.out.println("puahomeBbsPuaer is null");
 		}else{
 			System.out.println("puahomeBbsPuaer.class.getSimpleName():"+PuahomeBbsPuaer.class.getSimpleName());
-//			System.out.println("puahomeBbsPuaer:"+puahomeBbsPuaer.toString());
 			PuahomeBbsPuaerService puahomeBbsPuaerService = new PuahomeBbsPuaerServiceImpl();
 			BbsPuaerInsertResult = puahomeBbsPuaerService.insert(puahomeBbsPuaer);
 			puahomeBbsPuaerService.close();
-			OutputRedis puahomeBbsPuaerRedis = new OutputRedis("puahomeBbs_puaer");
+			OutputRedis puahomeBbsPuaerRedis = new OutputRedis(Config.INSTANCE.getConfigValue("PuahomeBbs.Puaer.Prefix"));
 			puahomeBbsPuaerRedis.hsetItem(url, puahomeBbsPuaer);
 		}
 		if(BbsInsertResult>0&&BbsPuaerInsertResult>0&&url!=null){
 			ServerContext.cacheUrl.put(url, RecordMark.RECORD.getMark());
-			RecordedUrlRedis RecordedUrlRedis= new RecordedUrlRedis();
+			RecordedUrlRedis RecordedUrlRedis= new RecordedUrlRedis(Config.INSTANCE.getConfigValue("Puahome.Recorded.Url.Prefix"));
 			RecordedUrlRedis.hsetUrl(url, RecordMark.RECORD.getMark());
 			System.out.println("url:"+url);
 			System.out.println("ServerContext.cacheUrl size in pipeline:"+ServerContext.cacheUrl.size());
