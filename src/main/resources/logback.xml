@@ -10,9 +10,9 @@
       
  <appender name="filelog"
   class="ch.qos.logback.core.rolling.RollingFileAppender">
-  <file>D:/Gitecplise/logs/rule.log</file>
+  <file>D:/logs/rule.log</file>
   <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
-        <fileNamePattern>D:/Gitecplise/logs/rule.%d{yyyyMMdd-HH}.log</fileNamePattern>
+        <fileNamePattern>D:/logs/rule.%d{yyyyMMdd-HH}.log</fileNamePattern>
         <maxHistory>72</maxHistory>
     </rollingPolicy>
  

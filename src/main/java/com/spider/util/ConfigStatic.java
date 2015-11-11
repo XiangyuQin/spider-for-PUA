@@ -8,6 +8,7 @@ public class ConfigStatic {
 	public static String POST=".Post";
 	public static String PWD=".Pwd";
 	public static String DB=".Db";
+	public static String UNNECESSARYKEYS=".UnnecessaryKeys";
 	
 	public static String entranceAddress=Config.INSTANCE.getConfigValue("entrance.Address");
 	

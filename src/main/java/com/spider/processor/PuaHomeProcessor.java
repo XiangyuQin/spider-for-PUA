@@ -23,42 +23,52 @@ public class PuaHomeProcessor implements PageProcessor{
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setCharset("UTF-8");
     HashMap<String,String> hashMap = new HashMap<String, String>();
   public void process(Page page) {
-//	  configTest();
 	  System.out.println("page:"+page.getUrl());
-      List<String> contentUrlList = new ArrayList<String>();
-      List<String> listUrlList = new ArrayList<String>();
       if (page.getUrl().regex(ConfigStatic.RegexUrlList).match()) {
-          listUrlList = page.getHtml().xpath(ConfigStatic.XpathListUrl).links().regex(ConfigStatic.RegexUrlList).all();
-          System.out.println("lb:"+page.getUrl().toString()+":"+listUrlList.size());
-          contentUrlList = page.getHtml().xpath(ConfigStatic.XpathContentUrl).links().regex(ConfigStatic.RegexUrlContent).all();
-          listUrlList = mergeUrl(listUrlList,ConfigStatic.RegexUrlWeb);
-          contentUrlList = mergeUrl(contentUrlList,ConfigStatic.RegexUrlWeb);
-          for(String url:listUrlList){
-        	  System.out.println("url:"+url);
-          }
-          for(String content:contentUrlList){
-        	  System.out.println("content:"+content);
-          }
-          System.out.println("***********************");
-          duplicateUrl(contentUrlList);
-          System.out.println("cacheUrl size:"+ServerContext.cacheUrl.size());
-          mapUrlAndListUrl(contentUrlList, page.getUrl().toString());
-          page.addTargetRequests(listUrlList);
-          page.addTargetRequests(contentUrlList);
-      } else {
-    	  PuahomeResult puahomeResult = AnalyzePage(page);
-          PuahomeBbs puahomeBbs = new PuahomeBbs(page.getUrl().toString(),ServerContext.articleListUrl.get(page.getUrl().toString()));
-          PuahomeBbsPuaer puahomeBbsPuaer = new PuahomeBbsPuaer();
-          puahomeBbs.generate(puahomeResult);
-          puahomeBbsPuaer.generate(puahomeResult);
-          System.out.println("output item:"+puahomeBbs.getClass().getSimpleName());
-          
-          page.putField("url",page.getUrl().toString());
-          page.putField(puahomeBbs.getClass().getSimpleName(), puahomeBbs);
-          page.putField(puahomeBbsPuaer.getClass().getSimpleName(), puahomeBbsPuaer);
+    	  handleListPage(page);
+      }
+      if(page.getUrl().regex(ConfigStatic.RegexUrlContent).match()){
+    	  handleContentPage(page);
       }
   }
 
+  private void handleListPage(Page page){
+      List<String> contentUrlList = new ArrayList<String>();
+      List<String> listUrlList = new ArrayList<String>();
+      listUrlList = page.getHtml().xpath(ConfigStatic.XpathListUrl).links().regex(ConfigStatic.RegexUrlList).all();
+      System.out.println("lb:"+page.getUrl().toString()+":"+listUrlList.size());
+      contentUrlList = page.getHtml().xpath(ConfigStatic.XpathContentUrl).links().regex(ConfigStatic.RegexUrlContent).all();
+      listUrlList = mergeUrl(listUrlList,ConfigStatic.RegexUrlWeb);
+      contentUrlList = mergeUrl(contentUrlList,ConfigStatic.RegexUrlWeb);
+      printUrlAcquireResult(listUrlList,contentUrlList);
+      duplicateUrl(contentUrlList);
+      System.out.println("cacheUrl size:"+ServerContext.cacheUrl.size());
+      mapUrlAndListUrl(contentUrlList, page.getUrl().toString());
+      page.addTargetRequests(listUrlList);
+      page.addTargetRequests(contentUrlList);
+  }
+  
+  private void printUrlAcquireResult(List<String> listUrlList,List<String> contentUrlList){
+      for(String url:listUrlList){
+    	  System.out.println("url:"+url);
+      }
+      for(String content:contentUrlList){
+    	  System.out.println("content:"+content);
+      }
+      System.out.println("***********************"); 
+  }
+  
+  private void handleContentPage(Page page){
+	  PuahomeResult puahomeResult = AnalyzePage(page);
+      PuahomeBbs puahomeBbs = new PuahomeBbs(page.getUrl().toString(),ServerContext.articleListUrl.get(page.getUrl().toString()));
+      PuahomeBbsPuaer puahomeBbsPuaer = new PuahomeBbsPuaer();
+      puahomeBbs.generate(puahomeResult);
+      puahomeBbsPuaer.generate(puahomeResult);    
+      page.putField("url",page.getUrl().toString());
+      page.putField(puahomeBbs.getClass().getSimpleName(), puahomeBbs);
+      page.putField(puahomeBbsPuaer.getClass().getSimpleName(), puahomeBbsPuaer);
+  }
+  
   private void duplicateUrl(List<String> contentUrlList){
 	  for(String url:contentUrlList){
 		  if(!ServerContext.cacheUrl.containsKey(url)){
@@ -101,13 +111,10 @@ public class PuaHomeProcessor implements PageProcessor{
     	  puahomeResult.setThemenum(result.group(13));
     	  puahomeResult.setFansnum(result.group(14));
     	  puahomeResult.setAttentionnum(result.group(15));
-//    	  System.out.println("puahomeResult.toString()"+puahomeResult.toString());
       }else{
           System.out.println("解析出问题："+page.getUrl().toString());
       }
-
       return puahomeResult;
-      
   }
 
   public Site getSite() {

@@ -44,10 +44,14 @@ public class OutputRedis extends SuperRedis{
 	
 	private List<String> getUnnecessaryKeys(String prefix) {
 		List<String> unnecessaryKeys = new ArrayList<String>();
-		unnecessaryKeys.add("title");
-		unnecessaryKeys.add("content");
-		unnecessaryKeys.add("writer");
-		unnecessaryKeys.add("name");
+		String UnnecessaryKeyMark = prefix+ConfigStatic.UNNECESSARYKEYS;
+		String UnnecessaryKeyStr =  Config.INSTANCE.getConfigValue(UnnecessaryKeyMark);
+		String[] UnnecessaryKeyArray = UnnecessaryKeyStr.split(",");
+		if(UnnecessaryKeyArray!=null&&UnnecessaryKeyArray.length>0){
+			for(String UnnecessaryKey:UnnecessaryKeyArray){
+				unnecessaryKeys.add(UnnecessaryKey.trim());
+			}
+		}
 		return unnecessaryKeys;
 	}
 	

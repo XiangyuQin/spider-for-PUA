@@ -1,9 +1,8 @@
-package SpiderForPUA.SpiderForPUA;
+package com.spider.app;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 
 import com.spider.pipeline.PuaHomePipeline;
 import com.spider.processor.PuaHomeProcessor;
@@ -18,22 +17,14 @@ import us.codecraft.webmagic.Spider;
  * Main
  *
  */
-@Controller
 public class App 
 {
-	Logger logger = LoggerFactory.getLogger(this.getClass());
+	Logger logger = LoggerFactory.getLogger(App.class);
 	public App(){
 		logger.info("spider main");
 	}
 	
-	public void configTest(){
-		if("http://www.puahome.com/bbs/f-54-1.html".equals(ConfigStatic.entranceAddress)){
-			System.out.println("entranceAddress pass");
-		}
-	}
-	
 	public void runApp(){
-		configTest();
 		ServerContext.init();
 		ServerContext.cacheUrl = loadcacheUrl();
 		System.out.println("ServerContext.cacheUrl prepare:"+ServerContext.cacheUrl.size());
