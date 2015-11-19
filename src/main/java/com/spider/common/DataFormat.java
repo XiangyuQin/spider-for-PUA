@@ -3,15 +3,18 @@
  */
 package com.spider.common;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author XiangyuQin
  *
  */
 public class DataFormat {
-
+	private static Logger logger = LoggerFactory.getLogger(DataFormat.class);
 	public static Date getNowDateTime(){
 		return new Date(System.currentTimeMillis());
 	}
@@ -21,12 +24,11 @@ public class DataFormat {
 	}
 	
 	public static Date String2Date(String date){
-		System.out.println(date);
 		try{
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	        return sdf.parse(date);
 		}catch(Exception e){
-			System.out.println("error");
+			logger.error("error in String2Date",e);
 			return null;
 		}
 	}

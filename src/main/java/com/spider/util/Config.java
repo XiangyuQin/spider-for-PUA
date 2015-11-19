@@ -15,7 +15,7 @@ public enum Config {
 
 	INSTANCE;
 	
-	private static final Logger log = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(Config.class);
 	
 	private volatile Properties configuration = new Properties();
@@ -25,7 +25,7 @@ public enum Config {
 			this.configuration.clear();
 			getConfiguration(configFile);
 		}catch(Exception e){
-			System.out.println("error:"+e);
+			logger.error("error",e);
 		}
 	}
 	
@@ -35,12 +35,12 @@ public enum Config {
             try {
                 this.configuration.load(is);
             } catch (IOException e) {
-            	log.error("getConfiguration error",e);
+            	logger.error("getConfiguration error",e);
             } finally {
                 try {
                     is.close();
                 } catch (Throwable t) {
-                	log.error("property file close error",t);
+                	logger.error("property file close error",t);
                 }
             }
         }
@@ -50,7 +50,7 @@ public enum Config {
 		try{
 		  return this.configuration.getProperty(key);
 		}catch(Exception e){
-			log.error("getConfigValue error",e);
+			logger.error("getConfigValue error",e);
 		}
 		throw new NullPointerException();
 	}

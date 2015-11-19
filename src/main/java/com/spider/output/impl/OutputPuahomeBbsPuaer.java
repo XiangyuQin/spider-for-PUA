@@ -1,5 +1,8 @@
 package com.spider.output.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spider.models.PuahomeBbsPuaer;
 import com.spider.output.Output;
 import com.spider.redis.OutputRedis;
@@ -8,7 +11,7 @@ import com.spider.service.Impl.PuahomeBbsPuaerServiceImpl;
 import com.spider.util.Config;
 
 public class OutputPuahomeBbsPuaer implements Output{
-
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private PuahomeBbsPuaer puahomeBbsPuaer;
 	private String url;
 	public OutputPuahomeBbsPuaer(PuahomeBbsPuaer puahomeBbsPuaer,String url){
@@ -20,7 +23,7 @@ public class OutputPuahomeBbsPuaer implements Output{
 			outPutPuaerByMysql();
 			outPutPuaerRedis();
 		}catch(Exception e){
-			System.out.println("error"+e);
+			logger.error("error"+e);
 			return false;
 		}
 

@@ -2,14 +2,15 @@ package com.spider.models;
 
 import java.io.Serializable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spider.analyzeresult.PuahomeResult;
 import com.spider.common.DataTransform;
 
 @SuppressWarnings("serial")
 public class PuahomeBbsPuaer implements Serializable {
-    /**
-	 * 
-	 */
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Integer id;
 
     private String name;
@@ -101,7 +102,7 @@ public void generate(PuahomeResult puahomeResult) {
 	try{
 		generatePuahomeBbsPuaer(puahomeResult);
 	}catch(Exception e){
-		System.out.println("error:"+e);
+		logger.error("error"+e);
 	}
 }
     @Override

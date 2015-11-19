@@ -19,20 +19,21 @@ import us.codecraft.webmagic.Spider;
  */
 public class App 
 {
-	Logger logger = LoggerFactory.getLogger(App.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	public App(){
-		logger.info("spider main");
+		logger.info("spider start");
 	}
 	
 	public void runApp(){
 		ServerContext.init();
 		ServerContext.cacheUrl = loadcacheUrl();
-		System.out.println("ServerContext.cacheUrl prepare:"+ServerContext.cacheUrl.size());
-		Spider.create(new PuaHomeProcessor()).addPipeline(new PuaHomePipeline()).thread(6).addUrl(ConfigStatic.entranceAddress).run();
+		logger.info("ServerContext.cacheUrl prepare:"+ServerContext.cacheUrl.size());
+		Spider.create(new PuaHomeProcessor()).addPipeline(new PuaHomePipeline()).thread(6).addUrl(ConfigStatic.Seed).run();
 //		Spider.create(new PuaHomeProcessor()).addPipeline(new PuaHomePipeline()).thread(6).test("http://www.puahome.com/bbs/pua-87806-1-1.html");
 	}
 	
 	private Map<String, Integer> loadcacheUrl(){
+		logger.info("spider seed:"+ConfigStatic.Seed);
 		RecordedUrlRedis puahomeRecordUrlRedis = new RecordedUrlRedis(Config.INSTANCE.getConfigValue("Puahome.Recorded.Url.Prefix"));
 		return puahomeRecordUrlRedis.hgetUrl();
 	}

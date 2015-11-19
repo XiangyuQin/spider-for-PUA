@@ -15,11 +15,8 @@ package com.spider.app;
 //	}
 //	public void selectAll(){
 //		List<Userinfo> list = tiebaService.selectAll();
-//		System.out.println("list size:"+list.size());
 //		List<Userinfo> userinfoList = tiebaService.selectAll();
-//		System.out.println("size:"+userinfoList.size());
 //		for(Userinfo user:userinfoList){
-//			System.out.println("user:"+user.getName());
 //		}
 //	}
 //	
@@ -29,14 +26,12 @@ package com.spider.app;
 //		userinfo.setId(3);
 //		userinfo.setName("qinchunrui");
 //		userinfo.setPwd("qinchunrui");
-//		System.out.println("insertItem:"+tiebaService.insertItem(userinfo));
 //	}
 //	
 //	public void del(){
 //		QuaryParam quaryParam = new QuaryParam();
 //		quaryParam.setMinId(1);
 //		quaryParam.setMaxId(3);
-//		System.out.println("del:"+tiebaService.deletItem(quaryParam));
 //	}
 //	
 //	public void update(){

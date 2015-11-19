@@ -10,7 +10,7 @@ public class ConfigStatic {
 	public static String DB=".Db";
 	public static String UNNECESSARYKEYS=".UnnecessaryKeys";
 	
-	public static String entranceAddress=Config.INSTANCE.getConfigValue("entrance.Address");
+	public static String Seed=Config.INSTANCE.getConfigValue("entrance.Address");
 	
 	public static String RegexUrlWeb=Config.INSTANCE.getConfigValue("Regex.Url.Web");
 	public static String RegexUrlList=Config.INSTANCE.getConfigValue("Regex.Url.List");

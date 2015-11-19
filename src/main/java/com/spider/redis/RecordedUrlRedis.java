@@ -3,6 +3,9 @@ package com.spider.redis;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spider.common.DataTransform;
 import com.spider.util.Config;
 import com.spider.util.ConfigStatic;
@@ -10,6 +13,7 @@ import com.spider.util.ConfigStatic;
 import redis.clients.jedis.Jedis;
 
 public class RecordedUrlRedis extends SuperRedis{
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Jedis jedis;
 	private String key;
 	public RecordedUrlRedis(String prefix){
@@ -22,7 +26,7 @@ public class RecordedUrlRedis extends SuperRedis{
 			long record = jedis.hset(key, url, transformStringMark(mark));
 			return record;
 		}catch(Exception e){
-			System.out.println("hsetUrl error:"+e);
+			logger.error("hsetUrl error:",e);
 			return 0L;
 		}
 		
@@ -34,7 +38,7 @@ public class RecordedUrlRedis extends SuperRedis{
 			result = loadAndHandleRecord();
 			return result;
 		}catch(Exception e){
-			System.out.println("error:"+e);
+			logger.error("error:",e);
 			return result;
 		}
 		

@@ -1,5 +1,9 @@
 package com.spider.pipeline;
 
+import org.eclipse.jetty.util.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spider.models.PuahomeBbs;
 import com.spider.models.PuahomeBbsPuaer;
 import com.spider.output.Output;
@@ -12,6 +16,7 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
 public class PuaHomePipeline implements Pipeline{
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	PuahomeBbs puahomeBbs;
 	PuahomeBbsPuaer puahomeBbsPuaer;
 	String url;
@@ -49,7 +54,7 @@ public class PuaHomePipeline implements Pipeline{
 	}
 	
 	private void warnNull(String className){
-		System.out.println(className+" is null");
+		logger.warn(className+" is null");
 	}
 	
 }

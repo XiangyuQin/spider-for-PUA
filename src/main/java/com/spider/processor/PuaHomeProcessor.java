@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spider.analyzeresult.PuahomeResult;
 import com.spider.enums.RecordMark;
 import com.spider.models.PuahomeBbs;
@@ -18,12 +21,11 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 public class PuaHomeProcessor implements PageProcessor{
-
-	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setCharset("UTF-8");
     HashMap<String,String> hashMap = new HashMap<String, String>();
   public void process(Page page) {
-	  System.out.println("page:"+page.getUrl());
+	  logger.info("page:"+page.getUrl());
       if (page.getUrl().regex(ConfigStatic.RegexUrlList).match()) {
     	  handleListPage(page);
       }
@@ -36,13 +38,13 @@ public class PuaHomeProcessor implements PageProcessor{
       List<String> contentUrlList = new ArrayList<String>();
       List<String> listUrlList = new ArrayList<String>();
       listUrlList = page.getHtml().xpath(ConfigStatic.XpathListUrl).links().regex(ConfigStatic.RegexUrlList).all();
-      System.out.println("lb:"+page.getUrl().toString()+":"+listUrlList.size());
+      logger.info("lb:"+page.getUrl().toString()+":"+listUrlList.size());
       contentUrlList = page.getHtml().xpath(ConfigStatic.XpathContentUrl).links().regex(ConfigStatic.RegexUrlContent).all();
       listUrlList = mergeUrl(listUrlList,ConfigStatic.RegexUrlWeb);
       contentUrlList = mergeUrl(contentUrlList,ConfigStatic.RegexUrlWeb);
       printUrlAcquireResult(listUrlList,contentUrlList);
       duplicateUrl(contentUrlList);
-      System.out.println("cacheUrl size:"+ServerContext.cacheUrl.size());
+      logger.info("cacheUrl size:"+ServerContext.cacheUrl.size());
       mapUrlAndListUrl(contentUrlList, page.getUrl().toString());
       page.addTargetRequests(listUrlList);
       page.addTargetRequests(contentUrlList);
@@ -50,12 +52,12 @@ public class PuaHomeProcessor implements PageProcessor{
   
   private void printUrlAcquireResult(List<String> listUrlList,List<String> contentUrlList){
       for(String url:listUrlList){
-    	  System.out.println("url:"+url);
+    	  logger.info("url:"+url);
       }
       for(String content:contentUrlList){
-    	  System.out.println("content:"+content);
+    	  logger.info("content:"+content);
       }
-      System.out.println("***********************"); 
+      logger.info("***********************"); 
   }
   
   private void handleContentPage(Page page){
@@ -112,7 +114,7 @@ public class PuaHomeProcessor implements PageProcessor{
     	  puahomeResult.setFansnum(result.group(14));
     	  puahomeResult.setAttentionnum(result.group(15));
       }else{
-          System.out.println("解析出问题："+page.getUrl().toString());
+    	  logger.error("Something was wrong in AnalyzePage："+page.getUrl().toString()); 
       }
       return puahomeResult;
   }

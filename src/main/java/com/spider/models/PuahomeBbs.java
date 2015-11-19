@@ -3,6 +3,9 @@ package com.spider.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.spider.analyzeresult.PuahomeResult;
 import com.spider.common.DataFormat;
 import com.spider.common.DataTransform;
@@ -12,7 +15,8 @@ public class PuahomeBbs implements Serializable {
     /**
 	 * 
 	 */
-
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private Integer id;
 
     private String title;
@@ -188,7 +192,7 @@ public class PuahomeBbs implements Serializable {
     	try{
     		generatePuahomeBbs(puahomeResult);
     	}catch(Exception e){
-    		System.out.println("error:"+e);
+    		logger.info("error:",e);
     	}
     }
     

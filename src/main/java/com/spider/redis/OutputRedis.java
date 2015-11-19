@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSONObject;
 import com.spider.common.DataTransform;
 import com.spider.util.Config;
@@ -15,11 +18,12 @@ public class OutputRedis extends SuperRedis{
 	private Jedis jedis;
 	private String key;
 	private List<String> unnecessaryKeys;
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	public OutputRedis(String prefix) {
 		String keyMark = prefix+ConfigStatic.KEY;
 		this.key = Config.INSTANCE.getConfigValue(keyMark);
-		System.out.println("OutputRedis init keyMark:"+keyMark);
-		System.out.println("OutputRedis init key:"+this.key);
+		logger.info("OutputRedis init keyMark:"+keyMark);
+		logger.info("OutputRedis init key:"+this.key);
 		this.unnecessaryKeys = getUnnecessaryKeys(prefix);
 		jedis = init(prefix);
 	}
@@ -29,7 +33,7 @@ public class OutputRedis extends SuperRedis{
 			long result = hsetAndHandle(url,c);
 			return result;
 		}catch(Exception e){
-			System.out.println("error"+e);
+			logger.error("error",e);
 			return 0L;
 		}	
 	}

@@ -6,16 +6,19 @@ import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DataTransform {
 	
 	private static final String ALGORITHM = "MD5";
-	
+	private static Logger logger = LoggerFactory.getLogger(DataTransform.class);
 	public static Integer string2Integer(String numStr){
 		try{
 			Integer num = Integer.valueOf(numStr);
 			return num;
 		}catch(Exception e){
-			System.out.println("error:"+e);
+			logger.error("error:",e);
 			return 0;
 		}
 	}
@@ -25,7 +28,7 @@ public class DataTransform {
 			String result = String.valueOf(num);
 			return result;
 		}catch(Exception e){
-			System.out.println("error:"+e);
+			logger.error("error:",e);
 			return null;
 		}
 	}
@@ -47,7 +50,7 @@ public class DataTransform {
 	           Object value = method.invoke(o, new Object[] {});    
 	           return value;    
 	       } catch (Exception e) {    
-	           System.out.println("error:"+e);
+	    	   logger.warn("warn:NoSuchMethodException");
 	           return null;    
 	       }    
 	   }  
@@ -64,7 +67,7 @@ public class DataTransform {
 		        }  
 	    	}
 	    } catch (Exception e) {  
-	        System.out.println("error:"+e);
+	    	logger.error("error:",e);
 	        return null;  
 	    }         
 	    return stringBuffer.toString();  
