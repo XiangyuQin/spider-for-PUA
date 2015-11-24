@@ -43,11 +43,11 @@ public class PuaHomeProcessor implements PageProcessor{
       listUrlList = mergeUrl(listUrlList,ConfigStatic.RegexUrlWeb);
       contentUrlList = mergeUrl(contentUrlList,ConfigStatic.RegexUrlWeb);
       printUrlAcquireResult(listUrlList,contentUrlList);
-      duplicateUrl(contentUrlList);
+      List<String> urlList = duplicateUrl(contentUrlList);
       logger.info("cacheUrl size:"+ServerContext.cacheUrl.size());
       mapUrlAndListUrl(contentUrlList, page.getUrl().toString());
       page.addTargetRequests(listUrlList);
-      page.addTargetRequests(contentUrlList);
+      page.addTargetRequests(urlList);
   }
   
   private void printUrlAcquireResult(List<String> listUrlList,List<String> contentUrlList){
@@ -71,13 +71,24 @@ public class PuaHomeProcessor implements PageProcessor{
       page.putField(puahomeBbsPuaer.getClass().getSimpleName(), puahomeBbsPuaer);
   }
   
-  private void duplicateUrl(List<String> contentUrlList){
+  private List<String> duplicateUrl(List<String> contentUrlList){
+	  List<String> urlList = new ArrayList<String>();
 	  for(String url:contentUrlList){
 		  if(!ServerContext.cacheUrl.containsKey(url)){
+			  urlList.add(url);
 			  ServerContext.cacheUrl.put(url, RecordMark.NORECORD.getMark());
 		  }
 	  }
-	  
+	  printUrlStatus(urlList);
+	  return urlList;
+  }
+  
+  private void printUrlStatus(List<String> list){
+	  if(list==null||list.isEmpty()){
+		  logger.info("urlList is null");
+	  }else{
+		  logger.info("urlList:"+list.size());
+	  }
   }
   
   private void mapUrlAndListUrl(List<String> urlList,String listUrl){
