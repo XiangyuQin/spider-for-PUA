@@ -136,7 +136,6 @@ public class PuaHomeProcessor implements PageProcessor{
       if (resultArticleImf.find()) {
     	  puahomeResult.setTitle(resultArticleImf.group(1));
     	  puahomeResult.setEditdate(resultArticleImf.group(2));
-    	  puahomeResult.setPersonalUrl(resultArticleImf.group(3));
     	  puahomeResult.setWriter(resultArticleImf.group(4));
       }else{
     	  logger.error("Something was wrong in AnalyzeContent："+page.getUrl().toString()); 

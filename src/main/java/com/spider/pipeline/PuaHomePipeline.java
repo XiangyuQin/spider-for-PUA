@@ -1,19 +1,17 @@
 package com.spider.pipeline;
 
-import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import us.codecraft.webmagic.ResultItems;
+import us.codecraft.webmagic.Task;
+import us.codecraft.webmagic.pipeline.Pipeline;
 
 import com.spider.models.PuahomeBbs;
 import com.spider.models.PuahomeBbsPuaer;
 import com.spider.output.Output;
 import com.spider.output.impl.OutputPuahomeBbs;
-import com.spider.output.impl.OutputPuahomeBbsPuaer;
 import com.spider.output.impl.OutputRecordResult;
-
-import us.codecraft.webmagic.ResultItems;
-import us.codecraft.webmagic.Task;
-import us.codecraft.webmagic.pipeline.Pipeline;
 
 public class PuaHomePipeline implements Pipeline{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -34,17 +32,11 @@ public class PuaHomePipeline implements Pipeline{
 	private void outPut(){
 		if(url!=null){
 			Output outputPuahomeArticle = new OutputPuahomeBbs(puahomeBbs, url);
-			Output outputPuahomePuaer = new OutputPuahomeBbsPuaer(puahomeBbsPuaer, url);
 			Output outPutRecordResult = new OutputRecordResult(url);
 			if(puahomeBbs==null){
 				warnNull(puahomeBbs.getClass().getSimpleName());
 			}else{
 				outputPuahomeArticle.process();
-			}
-			if(puahomeBbsPuaer==null){
-				warnNull(puahomeBbsPuaer.getClass().getSimpleName());
-			}else{
-				outputPuahomePuaer.process();
 			}
 			outPutRecordResult.process();
 		}else{
