@@ -37,7 +37,8 @@ public class PuaHomeProcessor implements PageProcessor{
   private void handleListPage(Page page){
       List<String> contentUrlList = new ArrayList<String>();
       List<String> listUrlList = new ArrayList<String>();
-      listUrlList = page.getHtml().xpath(ConfigStatic.XpathListUrl).links().regex(ConfigStatic.RegexUrlList).all();
+      listUrlList = page.getHtml().xpath(ConfigStatic.XpathListUrl).links().regex(ConfigStatic.RegexRedundancyUrlList).all();
+      listUrlList = settleListUrl(listUrlList);
       logger.info("lb:"+page.getUrl().toString()+":"+listUrlList.size());
       contentUrlList = page.getHtml().xpath(ConfigStatic.XpathContentUrl).links().regex(ConfigStatic.RegexUrlContent).all();
       listUrlList = mergeUrl(listUrlList,ConfigStatic.RegexUrlWeb);
@@ -49,7 +50,21 @@ public class PuaHomeProcessor implements PageProcessor{
       page.addTargetRequests(listUrlList);
       page.addTargetRequests(urlList);
   }
-  
+  private List<String> settleListUrl(List<String> listUrlList){
+	  System.out.println("  sdsd:"+listUrlList);
+	  List<String> resultUrls = new ArrayList<String>();
+	  for(String url:listUrlList){
+	      Pattern pattern = Pattern.compile(ConfigStatic.RegexRedundancyUrlList);
+	      Matcher result = pattern.matcher(url);
+	      if (result.find()) {
+	    	  System.out.println("  sdsd");
+	    	  resultUrls.add(result.group(2)+result.group(3));
+	      }else{
+	    	  System.out.println("settleListUrl:"+url);
+	      }
+	  }
+	  return resultUrls;
+  }
   private void printUrlAcquireResult(List<String> listUrlList,List<String> contentUrlList){
       for(String url:listUrlList){
     	  logger.info("url:"+url);
@@ -106,26 +121,25 @@ public class PuaHomeProcessor implements PageProcessor{
   
   private PuahomeResult AnalyzePage(Page page) {
 	  PuahomeResult puahomeResult = new PuahomeResult();
-	  String pageString = page.getHtml().xpath(ConfigStatic.XpathContent).toString();
-      Pattern pattern = Pattern.compile(ConfigStatic.RegexContent);
-      Matcher result = pattern.matcher(pageString);
+	  String contentString = page.getHtml().xpath(ConfigStatic.XpathContent).toString();
+	  Pattern pattern = Pattern.compile(ConfigStatic.RegexContent);
+      Matcher result = pattern.matcher(contentString);
       if (result.find()) {
-    	  puahomeResult.setCategoryurl(result.group(1));
-    	  puahomeResult.setCategory(result.group(2));
-    	  puahomeResult.setTitle(result.group(4));
-    	  puahomeResult.setEditdate(result.group(5));
-    	  puahomeResult.setReadnum(result.group(6));
-    	  puahomeResult.setCommentnum(result.group(7));
-    	  puahomeResult.setSupportNum(result.group(8));
-    	  puahomeResult.setCollectNum(result.group(9));
-    	  puahomeResult.setContent(result.group(10));
-    	  puahomeResult.setPersonalUrl(result.group(11));
-    	  puahomeResult.setWriter(result.group(12));
-    	  puahomeResult.setThemenum(result.group(13));
-    	  puahomeResult.setFansnum(result.group(14));
-    	  puahomeResult.setAttentionnum(result.group(15));
+    	  puahomeResult.setContent(result.group());
       }else{
-    	  logger.error("Something was wrong in AnalyzePage："+page.getUrl().toString()); 
+    	  logger.error("Something was wrong in AnalyzeContent："+page.getUrl().toString()); 
+      }
+	  String articleImfString = page.getHtml().xpath(ConfigStatic.XpathArticleImf).toString();
+      Pattern patternArticleImf = Pattern.compile(ConfigStatic.RegexArticleImf);
+      Matcher resultArticleImf = patternArticleImf.matcher(articleImfString);
+      
+      if (resultArticleImf.find()) {
+    	  puahomeResult.setTitle(resultArticleImf.group(1));
+    	  puahomeResult.setEditdate(resultArticleImf.group(2));
+    	  puahomeResult.setPersonalUrl(resultArticleImf.group(3));
+    	  puahomeResult.setWriter(resultArticleImf.group(4));
+      }else{
+    	  logger.error("Something was wrong in AnalyzeContent："+page.getUrl().toString()); 
       }
       return puahomeResult;
   }
